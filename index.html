@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis XV Años — Karla Guadalupe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --crema: #fbfaf5;
+      --vino: #5c1a2b;
+      --vino-oscuro: #431220;
+      --dorado: #b08d3e;
+      --verde: #7c9885;
+      --tinta: #4a3f3a;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      background: var(--vino-oscuro);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px 10px 40px;
+      color: var(--tinta);
+    }
+    .tarjeta {
+      background: var(--crema);
+      max-width: 480px;
+      width: 100%;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 25px 70px rgba(0,0,0,0.55);
+      position: relative;
+    }
+    .marco {
+      position: absolute;
+      inset: 10px;
+      border: 1px solid var(--dorado);
+      outline: 1px solid rgba(176,141,62,0.45);
+      outline-offset: 3px;
+      border-radius: 4px;
+      pointer-events: none;
+      z-index: 5;
+    }
+    .cabecera {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 30px 30px 0;
+    }
+    .colibri-esq { width: 112px; margin-top: 26px; }
+    .virgen-esq { width: 150px; }
+    .contenido { padding: 10px 34px 44px; text-align: center; }
+
+    .pretitulo {
+      font-size: 13px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--dorado);
+      margin-top: 8px;
+    }
+    .xv {
+      font-family: "Great Vibes", cursive;
+      font-size: 54px;
+      color: var(--dorado);
+      line-height: 1.1;
+      margin: 2px 0 6px;
+    }
+    .nombre {
+      font-family: "Great Vibes", cursive;
+      font-size: 40px;
+      color: var(--vino);
+      line-height: 1.15;
+      margin-bottom: 18px;
+    }
+    .mensaje {
+      font-style: italic;
+      font-size: 17px;
+      line-height: 1.55;
+      color: var(--tinta);
+      margin: 0 auto 20px;
+      max-width: 360px;
+    }
+    .mensaje::before { content: "“"; color: var(--dorado); font-size: 26px; }
+    .mensaje::after { content: "”"; color: var(--dorado); font-size: 26px; }
+
+    .separador {
+      display: flex; align-items: center; gap: 12px;
+      margin: 20px 0; color: var(--dorado);
+    }
+    .separador::before, .separador::after {
+      content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--dorado), transparent);
+    }
+    .separador span { font-size: 18px; }
+
+    .papas-titulo { font-size: 14px; letter-spacing: 3px; text-transform: uppercase; color: var(--verde); margin-bottom: 6px; }
+    .papas { font-size: 20px; font-weight: 600; color: var(--vino); line-height: 1.4; }
+
+    .fecha {
+      margin: 22px 0 6px;
+      display: flex; align-items: center; justify-content: center; gap: 16px;
+    }
+    .fecha .mes, .fecha .dia-sem {
+      font-size: 14px; letter-spacing: 4px; text-transform: uppercase; color: var(--tinta);
+      border-top: 1px solid var(--dorado); border-bottom: 1px solid var(--dorado);
+      padding: 8px 0; min-width: 90px;
+    }
+    .fecha .dia { font-size: 52px; color: var(--vino); font-weight: 500; line-height: 1; }
+    .anio { font-size: 16px; letter-spacing: 6px; color: var(--tinta); margin-bottom: 4px; }
+
+    .evento { margin-top: 24px; }
+    .evento .tipo {
+      font-size: 15px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--dorado); font-weight: 600; margin-bottom: 4px;
+    }
+    .evento .lugar { font-size: 21px; font-weight: 600; color: var(--vino); }
+    .evento .hora { font-size: 17px; color: var(--tinta); margin: 2px 0; }
+    .evento .direccion { font-size: 16px; color: var(--tinta); line-height: 1.4; }
+    .evento a.mapa {
+      display: inline-block; margin-top: 4px; font-size: 14px;
+      color: var(--verde); text-decoration: none; border-bottom: 1px solid var(--verde);
+    }
+
+    .colibri-mini {
+      width: 86px; margin: 18px auto 0; display: block; mix-blend-mode: multiply;
+      -webkit-mask-image: radial-gradient(closest-side, black 55%, transparent 98%);
+      mask-image: radial-gradient(closest-side, black 55%, transparent 98%);
+    }
+
+    /* ---- RSVP ---- */
+    .rsvp { margin-top: 26px; padding-top: 4px; }
+    .rsvp h2 {
+      font-family: "Great Vibes", cursive;
+      font-size: 34px; color: var(--vino); font-weight: 400; margin-bottom: 4px;
+    }
+    .rsvp .saludo { font-size: 18px; margin-bottom: 14px; }
+    .rsvp .saludo b { color: var(--vino); }
+    .campo { text-align: left; margin-bottom: 14px; }
+    .campo label { display: block; font-size: 15px; color: var(--tinta); margin-bottom: 5px; font-weight: 600; }
+    .campo input, .campo textarea {
+      width: 100%; padding: 10px 12px; font-size: 16px; font-family: inherit;
+      border: 1px solid #d8cfc0; border-radius: 8px; background: #fff; color: var(--tinta);
+    }
+    .campo input:focus, .campo textarea:focus { outline: 2px solid var(--dorado); border-color: var(--dorado); }
+    .botones { display: flex; gap: 12px; margin-top: 6px; }
+    button {
+      flex: 1; padding: 14px; border: none; border-radius: 10px;
+      font-size: 17px; font-weight: 700; font-family: inherit; cursor: pointer;
+      transition: transform 0.1s;
+    }
+    button:active { transform: scale(0.97); }
+    .si { background: var(--vino); color: var(--crema); }
+    .no { background: transparent; color: var(--tinta); border: 1px solid #c9bfae; }
+    .oculto { display: none; }
+    .gracias-emoji { font-size: 44px; margin-bottom: 6px; }
+    .gracias-titulo { font-family: "Great Vibes", cursive; font-size: 38px; color: var(--vino); font-weight: 400; }
+    .gracias-texto { font-size: 17px; margin-top: 6px; }
+    .error { color: #9b1c1c; font-size: 16px; }
+    .cargando-texto { padding: 30px 0; font-size: 17px; font-style: italic; }
+  </style>
+</head>
+<body>
+  <div class="tarjeta">
+    <div class="marco"></div>
+    <div class="cabecera">
+      <img class="colibri-esq" src="img/colibri.png" alt="Colibrí">
+      <img class="virgen-esq" src="img/virgen.png" alt="Virgen de Guadalupe">
+    </div>
+
+    <div class="contenido">
+      <p class="pretitulo">Con la bendición de Dios</p>
+      <h1 class="xv">Mis XV Años</h1>
+      <p class="nombre">Karla Guadalupe<br>Espinoza Valladares</p>
+
+      <p class="mensaje">Doy gracias a Dios por permitirme cumplir 15 años; gracias a mis padres por siempre cuidarme y guiarme por el buen camino, a mi abuela por siempre estar a mi lado y a mis hermanos por siempre estar conmigo.</p>
+
+      <div class="separador"><span>❦</span></div>
+
+      <p class="papas-titulo">Mis padres</p>
+      <p class="papas">Carlos Mauricio Espinoza<br>&amp;<br>Telma Jeaneth Valladares</p>
+
+      <div class="fecha">
+        <span class="dia-sem">Sábado</span>
+        <span class="dia">21</span>
+        <span class="mes">Noviembre</span>
+      </div>
+      <p class="anio">2026</p>
+
+      <div class="evento">
+        <p class="tipo">✝ Misa · 3:20 pm</p>
+        <p class="lugar">Iglesia Santa María Goretti</p>
+        <p class="direccion">28 Calle 12-69, Zona 13<br>Colonia Santa Fe</p>
+        <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=28+Calle+12-69+Zona+13+Colonia+Santa+Fe+Guatemala" target="_blank" rel="noopener">Ver mapa</a>
+      </div>
+
+      <div class="evento">
+        <p class="tipo">🥂 Recepción · 5:00 pm</p>
+        <p class="lugar">Salón Colegio C.C.I.</p>
+        <p class="direccion">29 Calle "A" 12-49, Zona 13<br>Colonia Santa Fe</p>
+        <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=29+Calle+A+12-49+Zona+13+Colonia+Santa+Fe+Guatemala" target="_blank" rel="noopener">Ver mapa</a>
+      </div>
+
+      <img class="colibri-mini" src="img/colibri.png" alt="">
+
+      <!-- ---- Confirmación ---- -->
+      <div class="rsvp">
+        <div class="separador"><span>❦</span></div>
+
+        <div id="cargando" class="cargando-texto">Buscando tu invitación...</div>
+
+        <div id="invitacion" class="oculto">
+          <h2>Confirma tu asistencia</h2>
+          <p class="saludo"><b id="nombreInvitado"></b>, será un honor contar con tu presencia.</p>
+          <p class="saludo" id="textoCupos" style="color: var(--dorado); font-weight: 600;"></p>
+          <div class="campo" id="campoAcompanantes">
+            <label for="acompanantes" id="labelAcompanantes">¿Cuántos acompañantes traes? (sin contarte a ti)</label>
+            <input type="number" id="acompanantes" min="0" value="0">
+          </div>
+          <div class="campo">
+            <label for="mensaje">Mensaje para Karla (opcional)</label>
+            <textarea id="mensaje" rows="2" placeholder="¡Felicidades!"></textarea>
+          </div>
+          <div class="botones">
+            <button class="si" id="btnSi">Sí asistiré ✦</button>
+            <button class="no" id="btnNo">No podré asistir</button>
+          </div>
+        </div>
+
+        <div id="gracias" class="oculto">
+          <div class="gracias-emoji" id="graciasEmoji">🕊️</div>
+          <p class="gracias-titulo" id="graciasTitulo"></p>
+          <p class="gracias-texto" id="graciasTexto"></p>
+        </div>
+
+        <div id="sinCodigo" class="oculto">
+          <p class="error">No encontramos tu invitación. Pide a quien te invitó que te reenvíe tu enlace con tu código.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="config.js"></script>
+  <script>
+    const db = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+    const codigo = new URLSearchParams(location.search).get("codigo");
+    let invitado = null;
+
+    const mostrar = (id) => {
+      for (const s of ["cargando", "invitacion", "gracias", "sinCodigo"])
+        document.getElementById(s).classList.toggle("oculto", s !== id);
+    };
+
+    async function cargar() {
+      if (!codigo) return mostrar("sinCodigo");
+      const { data, error } = await db.from("invitados").select("*").eq("codigo", codigo.toUpperCase()).maybeSingle();
+      if (error || !data) return mostrar("sinCodigo");
+      invitado = data;
+      document.getElementById("nombreInvitado").textContent = data.nombre;
+      const cupos = data.cupos || 1;
+      document.getElementById("textoCupos").textContent =
+        `Tu invitación es válida para ${cupos} ${cupos === 1 ? "persona" : "personas"}.`;
+      if (cupos === 1) {
+        document.getElementById("campoAcompanantes").classList.add("oculto");
+      } else {
+        const max = cupos - 1;
+        const input = document.getElementById("acompanantes");
+        input.max = max;
+        document.getElementById("labelAcompanantes").textContent =
+          `¿Cuántos acompañantes traes? (máximo ${max}, sin contarte a ti)`;
+      }
+      if (data.estado !== "pendiente") {
+        mostrarGracias(data.estado);
+      } else {
+        mostrar("invitacion");
+      }
+    }
+
+    function mostrarGracias(estado) {
+      const confirma = estado === "confirmado";
+      document.getElementById("graciasEmoji").textContent = confirma ? "🕊️" : "🤍";
+      document.getElementById("graciasTitulo").textContent = confirma ? "¡Gracias por confirmar!" : "Respuesta registrada";
+      document.getElementById("graciasTexto").textContent = confirma
+        ? "Te esperamos para celebrar juntos este día tan especial."
+        : "Lamentamos que no puedas acompañarnos. ¡Gracias por avisar!";
+      mostrar("gracias");
+    }
+
+    async function responder(estado) {
+      const max = (invitado.cupos || 1) - 1;
+      let acompanantes = estado === "confirmado" ? (parseInt(document.getElementById("acompanantes").value) || 0) : 0;
+      acompanantes = Math.min(Math.max(acompanantes, 0), max);
+      const mensaje = document.getElementById("mensaje").value.trim() || null;
+      const { error } = await db.from("invitados")
+        .update({ estado, acompanantes, mensaje, confirmado_at: new Date().toISOString() })
+        .eq("id", invitado.id);
+      if (error) return alert("Hubo un error, intenta de nuevo: " + error.message);
+      mostrarGracias(estado);
+    }
+
+    document.getElementById("btnSi").onclick = () => responder("confirmado");
+    document.getElementById("btnNo").onclick = () => responder("no_asiste");
+    cargar();
+  </script>
+</body>
+</html>

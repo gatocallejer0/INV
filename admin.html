@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🕊️ Admin — XV años de Karla</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f3f4f6; min-height: 100vh; padding: 24px 16px;
+    }
+    .contenedor { max-width: 760px; margin: 0 auto; }
+    h1 { font-size: 26px; color: #1f2937; margin-bottom: 4px; }
+    .sub { color: #6b7280; margin-bottom: 20px; }
+    .panel { background: white; border-radius: 14px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    .fila-form { display: flex; gap: 10px; }
+    .fila-form input {
+      flex: 1; padding: 11px 14px; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 16px;
+    }
+    .fila-form button {
+      padding: 11px 20px; border: none; border-radius: 10px; background: #764ba2;
+      color: white; font-size: 15px; font-weight: 700; cursor: pointer; white-space: nowrap;
+    }
+    .resumen { display: flex; gap: 12px; margin-bottom: 20px; }
+    .stat { flex: 1; background: white; border-radius: 14px; padding: 14px; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    .stat .num { font-size: 26px; font-weight: 800; }
+    .stat .lbl { font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; }
+    .confirmados .num { color: #16a34a; }
+    .pendientes .num { color: #d97706; }
+    .noasisten .num { color: #dc2626; }
+    .personas .num { color: #764ba2; }
+    .invitado {
+      display: flex; align-items: center; gap: 12px; padding: 14px 0;
+      border-bottom: 1px solid #f0f0f0; flex-wrap: wrap;
+    }
+    .invitado:last-child { border-bottom: none; }
+    .info { flex: 1; min-width: 160px; }
+    .info .n { font-weight: 700; color: #1f2937; }
+    .info .c { font-size: 13px; color: #6b7280; font-family: ui-monospace, monospace; }
+    .info .m { font-size: 13px; color: #9ca3af; font-style: italic; }
+    .badge { padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+    .b-confirmado { background: #dcfce7; color: #16a34a; }
+    .b-pendiente { background: #fef3c7; color: #d97706; }
+    .b-no_asiste { background: #fee2e2; color: #dc2626; }
+    .acciones { display: flex; gap: 6px; }
+    .acciones button {
+      padding: 7px 12px; border: none; border-radius: 8px; font-size: 13px;
+      font-weight: 600; cursor: pointer;
+    }
+    .copiar { background: #25d366; color: white; }
+    .eliminar { background: #f3f4f6; color: #9ca3af; }
+    .vacio { text-align: center; color: #9ca3af; padding: 24px; }
+  </style>
+</head>
+<body>
+  <div class="contenedor">
+    <h1>🕊️ XV años de Karla — Invitados</h1>
+    <p class="sub">Agrega invitados, copia su mensaje y envíalo por WhatsApp.</p>
+
+    <div class="resumen">
+      <div class="stat confirmados"><div class="num" id="stConfirmados">0</div><div class="lbl">Confirmados</div></div>
+      <div class="stat pendientes"><div class="num" id="stPendientes">0</div><div class="lbl">Pendientes</div></div>
+      <div class="stat noasisten"><div class="num" id="stNo">0</div><div class="lbl">No asisten</div></div>
+      <div class="stat personas"><div class="num" id="stPersonas">0</div><div class="lbl">Total personas</div></div>
+    </div>
+
+    <div class="panel">
+      <form class="fila-form" id="formNuevo">
+        <input type="text" id="nuevoNombre" placeholder="Nombre del invitado" required>
+        <input type="number" id="nuevoCupos" min="1" value="1" title="Cupos: personas con derecho en esta invitación" style="flex: 0 0 90px;">
+        <button type="submit">➕ Agregar</button>
+      </form>
+      <p style="font-size: 13px; color: #9ca3af; margin-top: 8px;">El número son los <b>cupos</b>: cuántas personas en total puede llevar esa invitación (incluyendo al invitado).</p>
+    </div>
+
+    <div class="panel" id="lista">
+      <div class="vacio">Cargando...</div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="config.js"></script>
+  <script>
+    const db = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+    let invitados = [];
+
+    // Código corto sin caracteres confusos (sin 0/O, 1/I/L)
+    function generarCodigo() {
+      const chars = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+      let c = "";
+      const buf = new Uint8Array(6);
+      crypto.getRandomValues(buf);
+      for (const b of buf) c += chars[b % chars.length];
+      return c;
+    }
+
+    function enlaceInvitacion(codigo) {
+      return `${location.origin}${location.pathname.replace("admin.html", "")}?codigo=${codigo}`;
+    }
+
+    async function cargar() {
+      const { data, error } = await db.from("invitados").select("*").order("created_at");
+      if (error) {
+        document.getElementById("lista").innerHTML = `<div class="vacio">Error: ${error.message}</div>`;
+        return;
+      }
+      invitados = data;
+      pintar();
+    }
+
+    function pintar() {
+      const etiquetas = { confirmado: "Confirmado", pendiente: "Pendiente", no_asiste: "No asiste" };
+      const lista = document.getElementById("lista");
+      if (!invitados.length) {
+        lista.innerHTML = `<div class="vacio">Aún no hay invitados. ¡Agrega el primero! 🎈</div>`;
+      } else {
+        lista.innerHTML = invitados.map(i => `
+          <div class="invitado">
+            <div class="info">
+              <div class="n">${i.nombre}${i.estado === "confirmado" && i.acompanantes ? ` <small>(+${i.acompanantes})</small>` : ""}</div>
+              <div class="c">Código: ${i.codigo} · ${i.cupos} ${i.cupos === 1 ? "cupo" : "cupos"}</div>
+              ${i.mensaje ? `<div class="m">“${i.mensaje}”</div>` : ""}
+            </div>
+            <span class="badge b-${i.estado}">${etiquetas[i.estado]}</span>
+            <div class="acciones">
+              <button class="copiar" onclick="copiarMensaje('${i.id}')">📋 Copiar invitación</button>
+              <button class="eliminar" onclick="eliminar('${i.id}')">🗑</button>
+            </div>
+          </div>`).join("");
+      }
+      const conf = invitados.filter(i => i.estado === "confirmado");
+      document.getElementById("stConfirmados").textContent = conf.length;
+      document.getElementById("stPendientes").textContent = invitados.filter(i => i.estado === "pendiente").length;
+      document.getElementById("stNo").textContent = invitados.filter(i => i.estado === "no_asiste").length;
+      document.getElementById("stPersonas").textContent = conf.reduce((t, i) => t + 1 + (i.acompanantes || 0), 0);
+    }
+
+    document.getElementById("formNuevo").onsubmit = async (e) => {
+      e.preventDefault();
+      const nombre = document.getElementById("nuevoNombre").value.trim();
+      const cupos = Math.max(1, parseInt(document.getElementById("nuevoCupos").value) || 1);
+      if (!nombre) return;
+      const { error } = await db.from("invitados").insert({ nombre, cupos, codigo: generarCodigo() });
+      if (error) return alert("Error al agregar: " + error.message);
+      document.getElementById("nuevoNombre").value = "";
+      document.getElementById("nuevoCupos").value = "1";
+      cargar();
+    };
+
+    window.copiarMensaje = async (id) => {
+      const i = invitados.find(x => x.id === id);
+      const texto = `🕊️✨ ${i.nombre}, tenemos el honor de invitarte a los XV años de Karla Guadalupe Espinoza Valladares 💐\n\n📅 Sábado 21 de noviembre de 2026\n⛪ Misa 3:20 pm · Iglesia Santa María Goretti\n🥂 Recepción 5:00 pm · Salón Colegio C.C.I.\n\n👥 Invitación válida para ${i.cupos} ${i.cupos === 1 ? "persona" : "personas"}\n\nAbre tu invitación y confirma tu asistencia aquí:\n${enlaceInvitacion(i.codigo)}\n\nTu código personal es: ${i.codigo}`;
+      await navigator.clipboard.writeText(texto);
+      alert(`Invitación de ${i.nombre} copiada. ¡Pégala en WhatsApp! ✅`);
+    };
+
+    window.eliminar = async (id) => {
+      const i = invitados.find(x => x.id === id);
+      if (!confirm(`¿Eliminar a ${i.nombre}?`)) return;
+      const { error } = await db.from("invitados").delete().eq("id", id);
+      if (error) return alert("Error: " + error.message);
+      cargar();
+    };
+
+    cargar();
+    setInterval(cargar, 10000); // refresca cada 10s para ver confirmaciones nuevas
+  </script>
+</body>
+</html>
