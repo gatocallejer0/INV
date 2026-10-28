@@ -204,13 +204,14 @@
     .rsvp .saludo b { color: var(--vino); font-weight: 600; }
     .cupos {
       display: inline-flex; align-items: center; gap: 8px;
-      margin: 2px 0 18px; padding: 6px 14px;
-      font-size: 0.95rem; font-weight: 600; letter-spacing: 0.03em;
-      color: var(--dorado);
-      border: 1px solid color-mix(in srgb, var(--dorado) 45%, transparent);
+      margin: 4px 0 20px; padding: 10px 20px;
+      font-size: 1.15rem; font-weight: 700; letter-spacing: 0.04em;
+      color: var(--crema);
+      background: linear-gradient(180deg, var(--vino-claro), var(--vino));
+      border: 1px solid var(--dorado);
       border-radius: 999px;
-      background: color-mix(in srgb, var(--dorado) 8%, transparent);
     }
+    .cupos::before { content: "👥"; font-size: 1.05em; }
     .cupos:empty { display: none; }
 
     .campo { text-align: left; margin-bottom: 16px; }
