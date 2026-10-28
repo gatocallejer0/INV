@@ -2,287 +2,505 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Mis XV Años — Karla Guadalupe</title>
+  <meta name="description" content="Karla Guadalupe Espinoza Valladares te invita a celebrar sus XV años. Sábado 21 de noviembre de 2026.">
+  <meta name="theme-color" content="#431220">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Mis XV Años — Karla Guadalupe">
+  <meta property="og:description" content="Sábado 21 de noviembre de 2026 · Misa 3:20 pm · Recepción 5:00 pm. Abre tu invitación y confirma tu asistencia.">
+  <meta property="og:image" content="https://invitacion15-six.vercel.app/img/banner.png">
+  <meta property="og:image:width" content="1205">
+  <meta property="og:image:height" content="545">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <style>
     :root {
       --crema: #fbfaf5;
+      --crema-2: #f4f0e6;
       --vino: #5c1a2b;
       --vino-oscuro: #431220;
+      --vino-claro: #7a2a3d;
       --dorado: #b08d3e;
+      --dorado-claro: #d4b86a;
       --verde: #7c9885;
       --tinta: #4a3f3a;
+      --tinta-suave: #7a6f69;
+      --linea: #e3d9c6;
+      /* Resorte amortiguado (sin rebote) para todo lo que no venga de un gesto con impulso */
+      --ease-out: cubic-bezier(0.22, 0.8, 0.24, 1);
+      --ease-in: cubic-bezier(0.76, 0, 0.78, 0.2);
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
     body {
       font-family: "Cormorant Garamond", Georgia, serif;
-      background: var(--vino-oscuro);
-      min-height: 100vh;
+      font-size: 17px;
+      line-height: 1.5;
+      background: radial-gradient(120% 80% at 50% 0%, #5a1a2c 0%, var(--vino-oscuro) 55%, #2e0b16 100%);
+      min-height: 100dvh;
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      padding: 20px 10px 40px;
+      padding: max(20px, env(safe-area-inset-top)) 12px max(40px, env(safe-area-inset-bottom));
       color: var(--tinta);
+      -webkit-tap-highlight-color: transparent;
+      -webkit-font-smoothing: antialiased;
     }
+
+    /* ---- Tarjeta ---- */
     .tarjeta {
-      background: var(--crema);
+      background:
+        radial-gradient(90% 60% at 50% 0%, #fffdf8 0%, var(--crema) 60%),
+        var(--crema);
       max-width: 480px;
       width: 100%;
-      border-radius: 6px;
+      border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 25px 70px rgba(0,0,0,0.55);
       position: relative;
+      box-shadow:
+        0 1px 2px rgba(0,0,0,0.25),
+        0 12px 28px rgba(0,0,0,0.35),
+        0 40px 90px rgba(0,0,0,0.45);
     }
     .marco {
       position: absolute;
       inset: 10px;
       border: 1px solid var(--dorado);
-      outline: 1px solid rgba(176,141,62,0.45);
+      outline: 1px solid rgba(176,141,62,0.4);
       outline-offset: 3px;
-      border-radius: 4px;
+      border-radius: 6px;
       pointer-events: none;
       z-index: 5;
     }
+    .marco::before, .marco::after {
+      content: "✦";
+      position: absolute;
+      color: var(--dorado);
+      font-size: 10px;
+      opacity: 0.8;
+    }
+    .marco::before { left: -5px; bottom: -6px; }
+    .marco::after { right: -5px; bottom: -6px; }
+
     .cabecera {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
       padding: 30px 30px 0;
     }
+    .cabecera img { mix-blend-mode: multiply; }
     .colibri-esq { width: 112px; margin-top: 26px; }
     .rosas-esq { width: 160px; margin: -8px -8px 0 0; }
+    img { user-select: none; -webkit-user-drag: none; height: auto; }
     .contenido { padding: 10px 34px 44px; text-align: center; }
 
+    /* ---- Tipografía: tracking específico por tamaño ---- */
     .pretitulo {
-      font-size: 13px;
-      letter-spacing: 5px;
+      font-size: 0.75rem;
+      letter-spacing: 0.32em;
       text-transform: uppercase;
       color: var(--dorado);
       margin-top: 8px;
+      padding-left: 0.32em; /* compensa el tracking final para centrar ópticamente */
     }
     .xv {
       font-family: "Great Vibes", cursive;
-      font-size: 54px;
+      font-size: clamp(3rem, 12vw, 3.6rem);
+      font-weight: 400;
       color: var(--dorado);
-      line-height: 1.1;
-      margin: 2px 0 6px;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin: 2px 0 4px;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.6);
     }
     .nombre {
       font-family: "Great Vibes", cursive;
-      font-size: 40px;
+      font-size: clamp(2.2rem, 9vw, 2.6rem);
       color: var(--vino);
-      line-height: 1.15;
+      line-height: 1.12;
+      letter-spacing: -0.005em;
       margin-bottom: 18px;
     }
     .mensaje {
       font-style: italic;
-      font-size: 17px;
-      line-height: 1.55;
+      font-size: 1.05rem;
+      line-height: 1.6;
       color: var(--tinta);
       margin: 0 auto 20px;
       max-width: 360px;
+      text-wrap: pretty;
     }
-    .mensaje::before { content: "“"; color: var(--dorado); font-size: 26px; }
-    .mensaje::after { content: "”"; color: var(--dorado); font-size: 26px; }
+    .mensaje::before { content: "“"; color: var(--dorado); font-size: 1.6em; line-height: 0; vertical-align: -0.25em; margin-right: 2px; }
+    .mensaje::after { content: "”"; color: var(--dorado); font-size: 1.6em; line-height: 0; vertical-align: -0.25em; margin-left: 2px; }
 
     .separador {
       display: flex; align-items: center; gap: 12px;
-      margin: 20px 0; color: var(--dorado);
+      margin: 22px 0; color: var(--dorado);
     }
     .separador::before, .separador::after {
-      content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--dorado), transparent);
+      content: ""; flex: 1; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--dorado), transparent);
     }
-    .separador span { font-size: 18px; }
+    .separador span { font-size: 18px; line-height: 1; }
 
-    .papas-titulo { font-size: 14px; letter-spacing: 3px; text-transform: uppercase; color: var(--verde); margin-bottom: 6px; }
-    .papas { font-size: 20px; font-weight: 600; color: var(--vino); line-height: 1.4; }
+    .etiqueta {
+      font-size: 0.8rem; letter-spacing: 0.22em; text-transform: uppercase;
+      padding-left: 0.22em; margin-bottom: 6px;
+    }
+    .papas-titulo { color: var(--verde); }
+    .papas { font-size: 1.25rem; font-weight: 600; color: var(--vino); line-height: 1.4; letter-spacing: 0.005em; }
+    .papas .amp { display: block; color: var(--dorado); font-weight: 400; font-style: italic; line-height: 1.1; }
 
+    /* ---- Fecha ---- */
     .fecha {
-      margin: 22px 0 6px;
+      margin: 24px 0 6px;
       display: flex; align-items: center; justify-content: center; gap: 16px;
     }
     .fecha .mes, .fecha .dia-sem {
-      font-size: 14px; letter-spacing: 4px; text-transform: uppercase; color: var(--tinta);
+      font-size: 0.8rem; letter-spacing: 0.26em; text-transform: uppercase; color: var(--tinta);
       border-top: 1px solid var(--dorado); border-bottom: 1px solid var(--dorado);
-      padding: 8px 0; min-width: 90px;
+      padding: 8px 0 8px 0.26em; min-width: 92px;
     }
-    .fecha .dia { font-size: 52px; color: var(--vino); font-weight: 500; line-height: 1; }
-    .anio { font-size: 16px; letter-spacing: 6px; color: var(--tinta); margin-bottom: 4px; }
+    .fecha .dia { font-size: 3.4rem; color: var(--vino); font-weight: 500; line-height: 1; letter-spacing: -0.03em; }
+    .anio { font-size: 1rem; letter-spacing: 0.4em; padding-left: 0.4em; color: var(--tinta); margin-bottom: 4px; }
 
-    .evento { margin-top: 24px; }
+    /* ---- Eventos ---- */
+    .evento { margin-top: 26px; }
     .evento .tipo {
-      font-size: 15px; letter-spacing: 4px; text-transform: uppercase;
+      font-size: 0.85rem; letter-spacing: 0.26em; padding-left: 0.26em; text-transform: uppercase;
       color: var(--dorado); font-weight: 600; margin-bottom: 4px;
     }
-    .evento .lugar { font-size: 21px; font-weight: 600; color: var(--vino); }
-    .evento .hora { font-size: 17px; color: var(--tinta); margin: 2px 0; }
-    .evento .direccion { font-size: 16px; color: var(--tinta); line-height: 1.4; }
-    .evento a.mapa {
-      display: inline-block; margin-top: 4px; font-size: 14px;
-      color: var(--verde); text-decoration: none; border-bottom: 1px solid var(--verde);
-    }
+    .evento .lugar { font-size: 1.3rem; font-weight: 600; color: var(--vino); line-height: 1.25; }
+    .evento .direccion { font-size: 1rem; color: var(--tinta); line-height: 1.4; margin-top: 2px; }
 
-    .virgen-mini { width: 96px; margin: 18px auto 0; display: block; }
+    .mapa {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 8px; padding: 7px 14px;
+      font-size: 0.9rem; font-weight: 600; letter-spacing: 0.04em;
+      color: var(--verde); text-decoration: none;
+      border: 1px solid color-mix(in srgb, var(--verde) 55%, transparent);
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--verde) 8%, transparent);
+      transition: transform 320ms var(--ease-out), background-color 320ms var(--ease-out), border-color 320ms var(--ease-out);
+      touch-action: manipulation;
+    }
+    .mapa svg { width: 14px; height: 14px; }
+    .mapa:hover { background: color-mix(in srgb, var(--verde) 14%, transparent); border-color: var(--verde); }
+    .mapa:active { transform: scale(0.96); transition-duration: 80ms; background: color-mix(in srgb, var(--verde) 20%, transparent); }
+
+    .virgen-mini { width: 96px; margin: 20px auto 0; display: block; }
 
     /* ---- RSVP ---- */
     .rsvp { margin-top: 26px; padding-top: 4px; }
     .rsvp h2 {
       font-family: "Great Vibes", cursive;
-      font-size: 34px; color: var(--vino); font-weight: 400; margin-bottom: 4px;
+      font-size: 2.2rem; color: var(--vino); font-weight: 400; margin-bottom: 4px; line-height: 1.1;
     }
-    .rsvp .saludo { font-size: 18px; margin-bottom: 14px; }
-    .rsvp .saludo b { color: var(--vino); }
-    .campo { text-align: left; margin-bottom: 14px; }
-    .campo label { display: block; font-size: 15px; color: var(--tinta); margin-bottom: 5px; font-weight: 600; }
-    .campo input, .campo textarea {
-      width: 100%; padding: 10px 12px; font-size: 16px; font-family: inherit;
-      border: 1px solid #d8cfc0; border-radius: 8px; background: #fff; color: var(--tinta);
+    .rsvp .saludo { font-size: 1.1rem; margin-bottom: 8px; text-wrap: balance; }
+    .rsvp .saludo b { color: var(--vino); font-weight: 600; }
+    .cupos {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin: 2px 0 18px; padding: 6px 14px;
+      font-size: 0.95rem; font-weight: 600; letter-spacing: 0.03em;
+      color: var(--dorado);
+      border: 1px solid color-mix(in srgb, var(--dorado) 45%, transparent);
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--dorado) 8%, transparent);
     }
-    .campo input:focus, .campo textarea:focus { outline: 2px solid var(--dorado); border-color: var(--dorado); }
+    .cupos:empty { display: none; }
+
+    .campo { text-align: left; margin-bottom: 16px; }
+    .campo label { display: block; font-size: 0.95rem; color: var(--tinta-suave); margin-bottom: 6px; font-weight: 600; letter-spacing: 0.02em; }
+    .campo textarea {
+      width: 100%; padding: 12px 14px; font-size: 16px; font-family: inherit; line-height: 1.45;
+      border: 1px solid var(--linea); border-radius: 12px; background: #fff; color: var(--tinta);
+      resize: vertical; min-height: 64px;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
+      transition: border-color 220ms var(--ease-out), box-shadow 220ms var(--ease-out);
+    }
+    .campo textarea::placeholder { color: #b7ada2; font-style: italic; }
+    .campo textarea:focus {
+      outline: none; border-color: var(--dorado);
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.04), 0 0 0 3px color-mix(in srgb, var(--dorado) 25%, transparent);
+    }
+
     .botones { display: flex; gap: 12px; margin-top: 6px; }
-    button {
-      flex: 1; padding: 14px; border: none; border-radius: 10px;
-      font-size: 17px; font-weight: 700; font-family: inherit; cursor: pointer;
-      transition: transform 0.1s;
+    .btn {
+      flex: 1; padding: 15px 12px; border: 1px solid transparent; border-radius: 14px;
+      font-size: 1.05rem; font-weight: 700; font-family: inherit; letter-spacing: 0.02em;
+      cursor: pointer; position: relative; overflow: hidden;
+      touch-action: manipulation; user-select: none;
+      transition: transform 380ms var(--ease-out), box-shadow 380ms var(--ease-out), background-color 200ms, color 200ms, opacity 200ms;
+      will-change: transform;
     }
-    button:active { transform: scale(0.97); }
-    .si { background: var(--vino); color: var(--crema); }
-    .no { background: transparent; color: var(--tinta); border: 1px solid #c9bfae; }
-    .oculto { display: none; }
-    .gracias-emoji { font-size: 44px; margin-bottom: 6px; }
-    .gracias-titulo { font-family: "Great Vibes", cursive; font-size: 38px; color: var(--vino); font-weight: 400; }
-    .gracias-texto { font-size: 17px; margin-top: 6px; }
-    .error { color: #9b1c1c; font-size: 16px; }
-    .cargando-texto { padding: 30px 0; font-size: 17px; font-style: italic; }
+    /* Respuesta inmediata al presionar; el regreso es el que lleva la suavidad */
+    .btn:active { transform: scale(0.96); transition-duration: 70ms; }
+    .btn:focus-visible { outline: 2px solid var(--dorado); outline-offset: 3px; }
+    .btn[disabled] { cursor: default; }
+    .si {
+      background: linear-gradient(180deg, var(--vino-claro), var(--vino));
+      color: var(--crema);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset, 0 6px 16px rgba(92,26,43,0.35);
+    }
+    .si:hover { box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset, 0 10px 22px rgba(92,26,43,0.4); }
+    .si:active { box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset, 0 3px 8px rgba(92,26,43,0.35); }
+    .no { background: transparent; color: var(--tinta); border-color: #c9bfae; }
+    .no:hover { background: var(--crema-2); }
+    .no:active { background: #ece5d6; }
+    .btn .txt { display: inline-block; transition: opacity 160ms, transform 300ms var(--ease-out); }
+    .btn .spin {
+      position: absolute; inset: 0; display: grid; place-items: center;
+      opacity: 0; transition: opacity 160ms;
+    }
+    .btn .spin::after {
+      content: ""; width: 18px; height: 18px; border-radius: 50%;
+      border: 2px solid currentColor; border-right-color: transparent;
+      animation: girar 700ms linear infinite;
+    }
+    .btn.enviando .txt { opacity: 0; transform: translateY(4px); }
+    .btn.enviando .spin { opacity: 1; }
+    .botones.ocupado .btn:not(.enviando) { opacity: 0.45; }
+    @keyframes girar { to { transform: rotate(360deg); } }
+
+    .error-inline {
+      margin-top: 12px; font-size: 0.95rem; color: #9b1c1c;
+      background: #fdf0f0; border: 1px solid #f1c9c9; border-radius: 10px; padding: 10px 12px;
+      text-align: left;
+    }
+    .error-inline:empty { display: none; }
+
+    /* ---- Vistas: entran y salen por el mismo camino (opacidad + desplazamiento vertical) ---- */
+    .vista { transition: opacity 320ms var(--ease-out), transform 420ms var(--ease-out); }
+    .vista.oculto { display: none; }
+    .vista.entrando { opacity: 0; transform: translateY(10px); }
+
+    .cargando-texto { padding: 30px 0; font-size: 1.05rem; font-style: italic; color: var(--tinta-suave); }
+    .cargando-texto .puntos::after {
+      content: "…"; display: inline-block; width: 1.2em; text-align: left;
+      animation: puntos 1.4s steps(4, end) infinite;
+    }
+    @keyframes puntos { 0% { content: ""; } 25% { content: "."; } 50% { content: ".."; } 75% { content: "..."; } }
+
+    .gracias-emoji { font-size: 44px; margin-bottom: 6px; line-height: 1; }
+    .gracias-titulo { font-family: "Great Vibes", cursive; font-size: 2.4rem; color: var(--vino); font-weight: 400; line-height: 1.1; }
+    .gracias-texto { font-size: 1.05rem; margin-top: 8px; text-wrap: balance; }
+    .error { color: #9b1c1c; font-size: 1rem; text-wrap: balance; }
+
+    /* ---- Aparición suave de las secciones al hacer scroll ---- */
+    .rev { opacity: 0; transform: translateY(14px); transition: opacity 600ms var(--ease-out), transform 700ms var(--ease-out); }
+    .rev.visto { opacity: 1; transform: none; }
+    .cabecera img { opacity: 0; transform: translateY(-6px) scale(0.98); transition: opacity 700ms var(--ease-out), transform 900ms var(--ease-out); }
+    .cabecera img.visto { opacity: 1; transform: none; }
+    .rosas-esq.visto { transition-delay: 120ms; }
+
+    /* ---- Preferencias del sistema ---- */
+    @media (prefers-reduced-motion: reduce) {
+      .rev, .cabecera img { opacity: 1; transform: none; transition: none; }
+      .vista { transition: opacity 200ms ease; }
+      .vista.entrando { transform: none; }
+      .btn, .mapa { transition-duration: 0ms; }
+      .btn:active, .mapa:active { transform: none; }
+      .cargando-texto .puntos::after { animation: none; content: "…"; }
+    }
+    @media (prefers-contrast: more) {
+      .no { border-color: var(--tinta); }
+      .mapa, .cupos { border-width: 2px; }
+    }
+    @media (max-width: 380px) {
+      .cabecera { padding: 24px 22px 0; }
+      .colibri-esq { width: 92px; }
+      .rosas-esq { width: 136px; }
+      .contenido { padding: 10px 24px 38px; }
+      .fecha { gap: 10px; }
+      .fecha .mes, .fecha .dia-sem { min-width: 78px; font-size: 0.72rem; }
+      .botones { flex-direction: column; }
+    }
   </style>
 </head>
 <body>
-  <div class="tarjeta">
-    <div class="marco"></div>
+  <main class="tarjeta">
+    <div class="marco" aria-hidden="true"></div>
     <div class="cabecera">
-      <img class="colibri-esq" src="img/colibri.png" alt="Colibrí">
-      <img class="rosas-esq" src="img/flores.png" alt="Rosas">
+      <img class="colibri-esq" src="img/colibri.png" alt="" width="360" height="330">
+      <img class="rosas-esq" src="img/flores.png" alt="" width="340" height="380">
     </div>
 
     <div class="contenido">
-      <p class="pretitulo">Con la bendición de Dios</p>
-      <h1 class="xv">Mis XV Años</h1>
-      <p class="nombre">Karla Guadalupe<br>Espinoza Valladares</p>
+      <section class="rev">
+        <p class="pretitulo">Con la bendición de Dios</p>
+        <h1 class="xv">Mis XV Años</h1>
+        <p class="nombre">Karla Guadalupe<br>Espinoza Valladares</p>
+      </section>
 
-      <p class="mensaje">Doy gracias a Dios por permitirme cumplir 15 años; gracias a mis padres por siempre cuidarme y guiarme por el buen camino, a mi abuela por siempre estar a mi lado y a mis hermanos por siempre estar conmigo.</p>
+      <p class="mensaje rev">Doy gracias a Dios por permitirme cumplir 15 años; gracias a mis padres por siempre cuidarme y guiarme por el buen camino, a mi abuela por siempre estar a mi lado y a mis hermanos por siempre estar conmigo.</p>
 
-      <div class="separador"><span>❦</span></div>
+      <div class="separador" aria-hidden="true"><span>❦</span></div>
 
-      <p class="papas-titulo">Mis padres</p>
-      <p class="papas">Carlos Mauricio Espinoza<br>&amp;<br>Telma Jeaneth Valladares</p>
+      <section class="rev">
+        <p class="etiqueta papas-titulo">Mis padres</p>
+        <p class="papas">Carlos Mauricio Espinoza<span class="amp">&amp;</span>Telma Jeaneth Valladares</p>
+      </section>
 
-      <div class="fecha">
-        <span class="dia-sem">Sábado</span>
-        <span class="dia">21</span>
-        <span class="mes">Noviembre</span>
-      </div>
-      <p class="anio">2026</p>
+      <section class="rev">
+        <div class="fecha">
+          <span class="dia-sem">Sábado</span>
+          <span class="dia">21</span>
+          <span class="mes">Noviembre</span>
+        </div>
+        <p class="anio">2026</p>
+      </section>
 
-      <div class="evento">
+      <section class="evento rev">
         <p class="tipo">✝ Misa · 3:20 pm</p>
         <p class="lugar">Iglesia Santa María Goretti</p>
         <p class="direccion">28 Calle 12-69, Zona 13<br>Colonia Santa Fe</p>
-        <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=28+Calle+12-69+Zona+13+Colonia+Santa+Fe+Guatemala" target="_blank" rel="noopener">Ver mapa</a>
-      </div>
+        <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=28+Calle+12-69+Zona+13+Colonia+Santa+Fe+Guatemala" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-7.2 7-12a7 7 0 1 0-14 0c0 4.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          Ver mapa
+        </a>
+      </section>
 
-      <div class="evento">
+      <section class="evento rev">
         <p class="tipo">🥂 Recepción · 5:00 pm</p>
         <p class="lugar">Salón Colegio C.C.I.</p>
         <p class="direccion">29 Calle "A" 12-49, Zona 13<br>Colonia Santa Fe</p>
-        <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=29+Calle+A+12-49+Zona+13+Colonia+Santa+Fe+Guatemala" target="_blank" rel="noopener">Ver mapa</a>
-      </div>
+        <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=29+Calle+A+12-49+Zona+13+Colonia+Santa+Fe+Guatemala" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-7.2 7-12a7 7 0 1 0-14 0c0 4.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          Ver mapa
+        </a>
+      </section>
 
-      <img class="virgen-mini" src="img/virgen.png" alt="Virgen de Guadalupe">
+      <img class="virgen-mini rev" src="img/virgen.png" alt="Virgen de Guadalupe" width="460" height="540">
 
       <!-- ---- Confirmación ---- -->
-      <div class="rsvp">
-        <div class="separador"><span>❦</span></div>
+      <section class="rsvp rev" aria-live="polite">
+        <div class="separador" aria-hidden="true"><span>❦</span></div>
 
-        <div id="cargando" class="cargando-texto">Buscando tu invitación...</div>
+        <div id="cargando" class="vista cargando-texto">Buscando tu invitación<span class="puntos"></span></div>
 
-        <div id="invitacion" class="oculto">
+        <div id="invitacion" class="vista oculto">
           <h2>Confirma tu asistencia</h2>
           <p class="saludo"><b id="nombreInvitado"></b>, será un honor contar con tu presencia.</p>
-          <p class="saludo" id="textoCupos" style="color: var(--dorado); font-weight: 600;"></p>
+          <p class="cupos" id="textoCupos"></p>
           <div class="campo">
             <label for="mensaje">Mensaje para Karla (opcional)</label>
             <textarea id="mensaje" rows="2" placeholder="¡Felicidades!"></textarea>
           </div>
-          <div class="botones">
-            <button class="si" id="btnSi">Sí asistiré ✦</button>
-            <button class="no" id="btnNo">No podré asistir</button>
+          <div class="botones" id="botones">
+            <button class="btn si" id="btnSi" type="button"><span class="txt">Sí asistiré ✦</span><span class="spin" aria-hidden="true"></span></button>
+            <button class="btn no" id="btnNo" type="button"><span class="txt">No podré asistir</span><span class="spin" aria-hidden="true"></span></button>
           </div>
+          <p class="error-inline" id="errorInline" role="alert"></p>
         </div>
 
-        <div id="gracias" class="oculto">
+        <div id="gracias" class="vista oculto">
           <div class="gracias-emoji" id="graciasEmoji">🕊️</div>
           <p class="gracias-titulo" id="graciasTitulo"></p>
           <p class="gracias-texto" id="graciasTexto"></p>
         </div>
 
-        <div id="sinCodigo" class="oculto">
+        <div id="sinCodigo" class="vista oculto">
           <p class="error">No encontramos tu invitación. Pide a quien te invitó que te reenvíe tu enlace con tu código.</p>
         </div>
-      </div>
+      </section>
     </div>
-  </div>
+  </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="config.js"></script>
   <script>
     const db = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
     const codigo = new URLSearchParams(location.search).get("codigo");
+    const $ = (id) => document.getElementById(id);
     let invitado = null;
+    let vistaActual = "cargando";
 
-    const mostrar = (id) => {
-      for (const s of ["cargando", "invitacion", "gracias", "sinCodigo"])
-        document.getElementById(s).classList.toggle("oculto", s !== id);
-    };
+    /* ---- Aparición al hacer scroll (solo opacidad y transform) ---- */
+    const reveladores = document.querySelectorAll(".rev, .cabecera img");
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver((entradas) => {
+        for (const e of entradas) if (e.isIntersecting) { e.target.classList.add("visto"); io.unobserve(e.target); }
+      }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 });
+      reveladores.forEach((el) => io.observe(el));
+    } else {
+      reveladores.forEach((el) => el.classList.add("visto"));
+    }
+
+    /* ---- Cambio de vista: sale por donde entra, y puede interrumpirse ---- */
+    function mostrar(id) {
+      if (id === vistaActual) return;
+      const saliente = $(vistaActual);
+      const entrante = $(id);
+      vistaActual = id;
+      saliente.classList.add("entrando");
+      let hecho = false;
+      const alTerminar = () => {
+        if (hecho) return;
+        hecho = true;
+        saliente.removeEventListener("transitionend", alTerminar);
+        if (vistaActual !== id) return; // alguien cambió de vista mientras tanto
+        saliente.classList.add("oculto");
+        entrante.classList.remove("oculto");
+        entrante.classList.add("entrando");
+        requestAnimationFrame(() => requestAnimationFrame(() => entrante.classList.remove("entrando")));
+      };
+      saliente.addEventListener("transitionend", alTerminar, { once: true });
+      setTimeout(alTerminar, 380); // respaldo si no hay transición (movimiento reducido)
+    }
 
     async function cargar() {
       if (!codigo) return mostrar("sinCodigo");
       const { data, error } = await db.from("invitados").select("*").eq("codigo", codigo.toUpperCase()).maybeSingle();
       if (error || !data) return mostrar("sinCodigo");
       invitado = data;
-      document.getElementById("nombreInvitado").textContent = data.nombre;
+      $("nombreInvitado").textContent = data.nombre;
       const cupos = data.cupos || 1;
-      document.getElementById("textoCupos").textContent =
-        `Tu invitación es válida para ${cupos} ${cupos === 1 ? "persona" : "personas"}.`;
-      if (data.estado !== "pendiente") {
-        mostrarGracias(data.estado);
-      } else {
-        mostrar("invitacion");
-      }
+      $("textoCupos").textContent = `Válida para ${cupos} ${cupos === 1 ? "persona" : "personas"}`;
+      if (data.estado !== "pendiente") mostrarGracias(data.estado);
+      else mostrar("invitacion");
     }
 
     function mostrarGracias(estado) {
       const confirma = estado === "confirmado";
-      document.getElementById("graciasEmoji").textContent = confirma ? "🕊️" : "🤍";
-      document.getElementById("graciasTitulo").textContent = confirma ? "¡Gracias por confirmar!" : "Respuesta registrada";
-      document.getElementById("graciasTexto").textContent = confirma
+      $("graciasEmoji").textContent = confirma ? "🕊️" : "🤍";
+      $("graciasTitulo").textContent = confirma ? "¡Gracias por confirmar!" : "Respuesta registrada";
+      $("graciasTexto").textContent = confirma
         ? "Te esperamos para celebrar juntos este día tan especial."
         : "Lamentamos que no puedas acompañarnos. ¡Gracias por avisar!";
       mostrar("gracias");
     }
 
-    async function responder(estado) {
-      const mensaje = document.getElementById("mensaje").value.trim() || null;
+    let enviando = false;
+    async function responder(estado, boton) {
+      if (enviando) return;
+      enviando = true;
+      $("errorInline").textContent = "";
+      boton.classList.add("enviando");
+      $("botones").classList.add("ocupado");
+      for (const b of $("botones").querySelectorAll("button")) b.disabled = true;
+
+      const mensaje = $("mensaje").value.trim() || null;
       const { error } = await db.from("invitados")
         .update({ estado, mensaje, confirmado_at: new Date().toISOString() })
         .eq("id", invitado.id);
-      if (error) return alert("Hubo un error, intenta de nuevo: " + error.message);
+
+      boton.classList.remove("enviando");
+      $("botones").classList.remove("ocupado");
+      for (const b of $("botones").querySelectorAll("button")) b.disabled = false;
+      enviando = false;
+
+      if (error) {
+        $("errorInline").textContent = "No pudimos guardar tu respuesta. Revisa tu conexión e inténtalo de nuevo.";
+        return;
+      }
       mostrarGracias(estado);
     }
 
-    document.getElementById("btnSi").onclick = () => responder("confirmado");
-    document.getElementById("btnNo").onclick = () => responder("no_asiste");
+    $("btnSi").addEventListener("click", (e) => responder("confirmado", e.currentTarget));
+    $("btnNo").addEventListener("click", (e) => responder("no_asiste", e.currentTarget));
     cargar();
   </script>
 </body>

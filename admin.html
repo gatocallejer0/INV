@@ -2,169 +2,386 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🕊️ Admin — XV años de Karla</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Invitados — XV años de Karla</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#f6f3ec">
   <style>
+    :root {
+      --fondo: #f6f3ec;
+      --tarjeta: #ffffff;
+      --vino: #5c1a2b;
+      --vino-claro: #7a2a3d;
+      --dorado: #b08d3e;
+      --tinta: #2b2320;
+      --tinta-2: #6b5f59;
+      --tinta-3: #9a8f88;
+      --linea: #e9e2d5;
+      --ok: #2f7d4f; --ok-bg: #e4f3ea;
+      --pend: #b26a08; --pend-bg: #fdf1dc;
+      --no: #b4303a; --no-bg: #fbe6e7;
+      --wa: #1fa855;
+      --ease-out: cubic-bezier(0.22, 0.8, 0.24, 1);
+      --radio: 14px;
+    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f3f4f6; min-height: 100vh; padding: 24px 16px;
+      font: 100%/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, system-ui, sans-serif;
+      background: var(--fondo); color: var(--tinta);
+      min-height: 100dvh;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: max(40px, env(safe-area-inset-bottom));
     }
-    .contenedor { max-width: 760px; margin: 0 auto; }
-    h1 { font-size: 26px; color: #1f2937; margin-bottom: 4px; }
-    .sub { color: #6b7280; margin-bottom: 20px; }
-    .panel { background: white; border-radius: 14px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
-    .fila-form { display: flex; gap: 10px; }
+    button, input { font: inherit; color: inherit; }
+    button { cursor: pointer; touch-action: manipulation; user-select: none; }
+
+    /* ---- Cabecera translúcida: el contenido pasa por debajo ---- */
+    .cabecera {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(246, 243, 236, 0.72);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      backdrop-filter: blur(18px) saturate(160%);
+      padding: max(14px, env(safe-area-inset-top)) 16px 12px;
+    }
+    .cabecera::after {
+      content: ""; position: absolute; left: 0; right: 0; bottom: -14px; height: 14px;
+      background: linear-gradient(rgba(246,243,236,0.9), rgba(246,243,236,0)); pointer-events: none;
+    }
+    .cabecera-int { max-width: 780px; margin: 0 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+    h1 { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.015em; line-height: 1.2; color: var(--vino); }
+    h1 small { display: block; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.01em; color: var(--tinta-2); margin-top: 2px; }
+    .ver-inv { font-size: 0.85rem; font-weight: 600; color: var(--vino); text-decoration: none; white-space: nowrap; padding: 6px 10px; border-radius: 8px; transition: background-color 200ms; }
+    .ver-inv:hover { background: rgba(92,26,43,0.08); }
+    .ver-inv:active { background: rgba(92,26,43,0.14); }
+
+    .contenedor { max-width: 780px; margin: 0 auto; padding: 18px 16px 0; }
+
+    /* ---- Resumen ---- */
+    .resumen { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
+    .stat {
+      background: var(--tarjeta); border-radius: var(--radio); padding: 14px 12px; text-align: left;
+      box-shadow: 0 1px 2px rgba(43,35,32,0.06), 0 4px 14px rgba(43,35,32,0.05);
+      border: 1px solid rgba(43,35,32,0.04);
+    }
+    .stat .num { font-size: 1.7rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; font-variant-numeric: tabular-nums; transition: color 300ms; }
+    .stat .lbl { font-size: 0.72rem; color: var(--tinta-2); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 4px; font-weight: 600; }
+    .confirmados .num { color: var(--ok); }
+    .pendientes .num { color: var(--pend); }
+    .noasisten .num { color: var(--no); }
+    .personas .num { color: var(--vino); }
+
+    /* ---- Paneles ---- */
+    .panel {
+      background: var(--tarjeta); border-radius: var(--radio); padding: 16px; margin-bottom: 16px;
+      box-shadow: 0 1px 2px rgba(43,35,32,0.06), 0 4px 14px rgba(43,35,32,0.05);
+      border: 1px solid rgba(43,35,32,0.04);
+    }
+    .fila-form { display: flex; gap: 8px; }
     .fila-form input {
-      flex: 1; padding: 11px 14px; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 16px;
+      flex: 1; min-width: 0; padding: 11px 14px; font-size: 16px;
+      border: 1px solid var(--linea); border-radius: 11px; background: #fff;
+      transition: border-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out);
     }
-    .fila-form button {
-      padding: 11px 20px; border: none; border-radius: 10px; background: #764ba2;
-      color: white; font-size: 15px; font-weight: 700; cursor: pointer; white-space: nowrap;
+    .fila-form input::placeholder { color: var(--tinta-3); }
+    .fila-form input:focus { outline: none; border-color: var(--dorado); box-shadow: 0 0 0 3px rgba(176,141,62,0.22); }
+    .fila-form input[type=number] { flex: 0 0 76px; text-align: center; -moz-appearance: textfield; }
+    .fila-form input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 11px 16px; border: 1px solid transparent; border-radius: 11px;
+      font-size: 0.95rem; font-weight: 600; white-space: nowrap; position: relative; text-decoration: none;
+      transition: transform 360ms var(--ease-out), background-color 180ms, color 180ms, border-color 180ms, box-shadow 360ms var(--ease-out), opacity 180ms;
+      will-change: transform;
     }
-    .resumen { display: flex; gap: 12px; margin-bottom: 20px; }
-    .stat { flex: 1; background: white; border-radius: 14px; padding: 14px; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
-    .stat .num { font-size: 26px; font-weight: 800; }
-    .stat .lbl { font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; }
-    .confirmados .num { color: #16a34a; }
-    .pendientes .num { color: #d97706; }
-    .noasisten .num { color: #dc2626; }
-    .personas .num { color: #764ba2; }
+    .btn:active { transform: scale(0.96); transition-duration: 70ms; }
+    .btn:focus-visible { outline: 2px solid var(--dorado); outline-offset: 2px; }
+    .btn[disabled] { opacity: 0.55; cursor: default; transform: none; }
+    .btn-primario { background: linear-gradient(180deg, var(--vino-claro), var(--vino)); color: #fff; box-shadow: 0 1px 0 rgba(255,255,255,0.14) inset, 0 4px 12px rgba(92,26,43,0.28); }
+    .btn-primario:hover { box-shadow: 0 1px 0 rgba(255,255,255,0.14) inset, 0 7px 16px rgba(92,26,43,0.33); }
+    .btn-primario:active { box-shadow: 0 1px 0 rgba(255,255,255,0.14) inset, 0 2px 6px rgba(92,26,43,0.28); }
+    .ayuda { font-size: 0.8rem; color: var(--tinta-2); margin-top: 8px; }
+    .ayuda b { color: var(--tinta); font-weight: 600; }
+
+    /* ---- Filtros y búsqueda ---- */
+    .herramientas { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
+    .buscar { flex: 1; min-width: 160px; position: relative; }
+    .buscar input {
+      width: 100%; padding: 9px 12px 9px 34px; font-size: 16px;
+      border: 1px solid var(--linea); border-radius: 999px; background: #fff;
+      transition: border-color 200ms, box-shadow 200ms;
+    }
+    .buscar input:focus { outline: none; border-color: var(--dorado); box-shadow: 0 0 0 3px rgba(176,141,62,0.22); }
+    .buscar svg { position: absolute; left: 12px; top: 50%; translate: 0 -50%; width: 15px; height: 15px; color: var(--tinta-3); pointer-events: none; }
+    .chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+    .chips::-webkit-scrollbar { display: none; }
+    .chip {
+      padding: 7px 12px; border-radius: 999px; border: 1px solid var(--linea); background: #fff;
+      font-size: 0.82rem; font-weight: 600; color: var(--tinta-2); white-space: nowrap;
+      transition: transform 300ms var(--ease-out), background-color 180ms, color 180ms, border-color 180ms;
+    }
+    .chip:active { transform: scale(0.95); transition-duration: 60ms; }
+    .chip[aria-pressed=true] { background: var(--tinta); color: #fff; border-color: var(--tinta); }
+    .chip .n { opacity: 0.7; margin-left: 4px; font-variant-numeric: tabular-nums; }
+
+    /* ---- Lista ---- */
+    .lista { padding: 4px 16px; }
     .invitado {
-      display: flex; align-items: center; gap: 12px; padding: 14px 0;
-      border-bottom: 1px solid #f0f0f0; flex-wrap: wrap;
+      display: grid; grid-template-columns: 1fr auto; grid-template-areas: "info badge" "acciones acciones";
+      gap: 8px 12px; padding: 14px 0; border-bottom: 1px solid var(--linea);
+      animation: aparecer 420ms var(--ease-out) both;
     }
     .invitado:last-child { border-bottom: none; }
-    .info { flex: 1; min-width: 160px; }
-    .info .n { font-weight: 700; color: #1f2937; }
-    .info .c { font-size: 13px; color: #6b7280; font-family: ui-monospace, monospace; }
-    .info .m { font-size: 13px; color: #9ca3af; font-style: italic; }
-    .badge { padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; }
-    .b-confirmado { background: #dcfce7; color: #16a34a; }
-    .b-pendiente { background: #fef3c7; color: #d97706; }
-    .b-no_asiste { background: #fee2e2; color: #dc2626; }
-    .acciones { display: flex; gap: 6px; }
-    .acciones button {
-      padding: 7px 12px; border: none; border-radius: 8px; font-size: 13px;
-      font-weight: 600; cursor: pointer;
+    @keyframes aparecer { from { opacity: 0; transform: translateY(6px); } }
+    .info { grid-area: info; min-width: 0; }
+    .info .n { font-weight: 600; font-size: 1rem; letter-spacing: -0.005em; overflow-wrap: anywhere; }
+    .info .c { font-size: 0.8rem; color: var(--tinta-2); margin-top: 2px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .info .c code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.8rem; letter-spacing: 0.06em; background: var(--fondo); padding: 2px 7px; border-radius: 6px; color: var(--tinta); }
+    .info .m { font-size: 0.85rem; color: var(--tinta-2); font-style: italic; margin-top: 4px; overflow-wrap: anywhere; }
+    .badge { grid-area: badge; align-self: start; padding: 4px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; white-space: nowrap; }
+    .b-confirmado { background: var(--ok-bg); color: var(--ok); }
+    .b-pendiente { background: var(--pend-bg); color: var(--pend); }
+    .b-no_asiste { background: var(--no-bg); color: var(--no); }
+    .acciones { grid-area: acciones; display: flex; gap: 6px; flex-wrap: wrap; }
+    .acciones .btn { padding: 8px 12px; font-size: 0.85rem; border-radius: 9px; }
+    .btn-wa { background: var(--wa); color: #fff; }
+    .btn-wa:hover { background: #1c9a4e; }
+    .btn-sec { background: var(--fondo); color: var(--tinta); border-color: var(--linea); }
+    .btn-sec:hover { background: #efeae0; }
+    .btn-sec.copiado { background: var(--ok-bg); color: var(--ok); border-color: transparent; }
+    .btn-peligro { background: transparent; color: var(--tinta-3); margin-left: auto; }
+    .btn-peligro:hover { color: var(--no); background: var(--no-bg); }
+    .confirmar { display: inline-flex; gap: 6px; align-items: center; margin-left: auto; font-size: 0.85rem; color: var(--tinta-2); }
+    .confirmar .btn { padding: 7px 10px; }
+    .btn-rojo { background: var(--no); color: #fff; }
+    .vacio { text-align: center; color: var(--tinta-3); padding: 28px 12px; font-size: 0.95rem; }
+    .vacio b { color: var(--tinta-2); display: block; font-size: 1.05rem; margin-bottom: 4px; }
+
+    /* ---- Aviso (toast) ---- */
+    .toast {
+      position: fixed; left: 50%; bottom: max(18px, env(safe-area-inset-bottom)); z-index: 20;
+      transform: translate(-50%, 20px); opacity: 0;
+      background: rgba(43,35,32,0.92); color: #fff;
+      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+      padding: 11px 16px; border-radius: 999px; font-size: 0.9rem; font-weight: 500;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+      transition: transform 380ms var(--ease-out), opacity 240ms var(--ease-out);
+      pointer-events: none; max-width: calc(100vw - 32px); text-align: center;
     }
-    .copiar { background: #25d366; color: white; }
-    .eliminar { background: #f3f4f6; color: #9ca3af; }
-    .vacio { text-align: center; color: #9ca3af; padding: 24px; }
+    .toast.visible { transform: translate(-50%, 0); opacity: 1; }
+    .toast.error { background: rgba(180,48,58,0.94); }
+
+    @media (max-width: 560px) {
+      .resumen { grid-template-columns: repeat(2, 1fr); }
+      .fila-form { flex-wrap: wrap; }
+      .fila-form input[type=text] { flex-basis: 100%; }
+      .fila-form .btn { flex: 1; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .btn, .chip { transition-duration: 0ms; }
+      .btn:active, .chip:active { transform: none; }
+      .invitado { animation: none; }
+      .toast { transition: opacity 200ms ease; transform: translate(-50%, 0); }
+    }
+    @media (prefers-reduced-transparency: reduce) {
+      .cabecera { background: var(--fondo); -webkit-backdrop-filter: none; backdrop-filter: none; }
+      .toast { background: var(--tinta); backdrop-filter: none; }
+    }
   </style>
 </head>
 <body>
-  <div class="contenedor">
-    <h1>🕊️ XV años de Karla — Invitados</h1>
-    <p class="sub">Agrega invitados, copia su mensaje y envíalo por WhatsApp.</p>
+  <header class="cabecera">
+    <div class="cabecera-int">
+      <h1>XV años de Karla <small>Invitados y confirmaciones</small></h1>
+      <a class="ver-inv" href="./" target="_blank" rel="noopener">Ver invitación ↗</a>
+    </div>
+  </header>
 
-    <div class="resumen">
+  <div class="contenedor">
+    <div class="resumen" aria-live="polite">
       <div class="stat confirmados"><div class="num" id="stConfirmados">0</div><div class="lbl">Confirmados</div></div>
       <div class="stat pendientes"><div class="num" id="stPendientes">0</div><div class="lbl">Pendientes</div></div>
       <div class="stat noasisten"><div class="num" id="stNo">0</div><div class="lbl">No asisten</div></div>
-      <div class="stat personas"><div class="num" id="stPersonas">0</div><div class="lbl">Total personas</div></div>
+      <div class="stat personas"><div class="num" id="stPersonas">0</div><div class="lbl">Personas</div></div>
     </div>
 
     <div class="panel">
-      <form class="fila-form" id="formNuevo">
-        <input type="text" id="nuevoNombre" placeholder="Nombre del invitado" required>
-        <input type="number" id="nuevoCupos" min="1" value="1" title="Cupos: personas con derecho en esta invitación" style="flex: 0 0 90px;">
-        <button type="submit">➕ Agregar</button>
+      <form class="fila-form" id="formNuevo" autocomplete="off">
+        <input type="text" id="nuevoNombre" placeholder="Nombre del invitado" required aria-label="Nombre del invitado" enterkeyhint="done">
+        <input type="number" id="nuevoCupos" min="1" max="20" value="1" inputmode="numeric" aria-label="Cupos" title="Cupos: personas que puede llevar esta invitación">
+        <button type="submit" class="btn btn-primario" id="btnAgregar">Agregar</button>
       </form>
-      <p style="font-size: 13px; color: #9ca3af; margin-top: 8px;">El número son los <b>cupos</b>: cuántas personas en total puede llevar esa invitación (incluyendo al invitado).</p>
+      <p class="ayuda">El número son los <b>cupos</b>: cuántas personas en total cubre esa invitación, incluyendo al invitado.</p>
     </div>
 
-    <div class="panel" id="lista">
-      <div class="vacio">Cargando...</div>
+    <div class="herramientas">
+      <div class="buscar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="search" id="buscar" placeholder="Buscar invitado" aria-label="Buscar invitado">
+      </div>
+      <div class="chips" role="group" aria-label="Filtrar por estado" id="chips">
+        <button class="chip" data-f="todos" aria-pressed="true">Todos<span class="n" id="nTodos">0</span></button>
+        <button class="chip" data-f="pendiente" aria-pressed="false">Pendientes<span class="n" id="nPend">0</span></button>
+        <button class="chip" data-f="confirmado" aria-pressed="false">Confirmados<span class="n" id="nConf">0</span></button>
+        <button class="chip" data-f="no_asiste" aria-pressed="false">No asisten<span class="n" id="nNo">0</span></button>
+      </div>
+    </div>
+
+    <div class="panel lista" id="lista">
+      <div class="vacio">Cargando…</div>
     </div>
   </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="config.js"></script>
   <script>
     const db = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+    const $ = (id) => document.getElementById(id);
     let invitados = [];
+    let filtro = "todos";
+    let busqueda = "";
+    let confirmandoId = null;
+    const etiquetas = { confirmado: "Confirmado", pendiente: "Pendiente", no_asiste: "No asiste" };
 
     // Código corto sin caracteres confusos (sin 0/O, 1/I/L)
     function generarCodigo() {
       const chars = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
-      let c = "";
       const buf = new Uint8Array(6);
       crypto.getRandomValues(buf);
-      for (const b of buf) c += chars[b % chars.length];
-      return c;
+      return Array.from(buf, (b) => chars[b % chars.length]).join("");
+    }
+    const enlaceInvitacion = (codigo) => `${location.origin}${location.pathname.replace(/admin(\.html)?$/, "")}?codigo=${codigo}`;
+    const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+    /* ---- Toast ---- */
+    let toastTimer;
+    function aviso(texto, tipo = "") {
+      const t = $("toast");
+      t.textContent = texto;
+      t.className = "toast visible " + tipo;
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.remove("visible"), 2400);
     }
 
-    function enlaceInvitacion(codigo) {
-      return `${location.origin}${location.pathname.replace("admin.html", "")}?codigo=${codigo}`;
-    }
-
+    /* ---- Datos ---- */
     async function cargar() {
       const { data, error } = await db.from("invitados").select("*").order("created_at");
-      if (error) {
-        document.getElementById("lista").innerHTML = `<div class="vacio">Error: ${error.message}</div>`;
-        return;
-      }
+      if (error) { $("lista").innerHTML = `<div class="vacio">No se pudo cargar la lista.<br>${esc(error.message)}</div>`; return; }
       invitados = data;
       pintar();
     }
 
+    function textoInvitacion(i) {
+      return `🕊️✨ ${i.nombre}, tenemos el honor de invitarte a los XV años de Karla Guadalupe Espinoza Valladares 💐\n\n📅 Sábado 21 de noviembre de 2026\n⛪ Misa 3:20 pm · Iglesia Santa María Goretti\n🥂 Recepción 5:00 pm · Salón Colegio C.C.I.\n\n👥 Invitación válida para ${i.cupos} ${i.cupos === 1 ? "persona" : "personas"}\n\nAbre tu invitación y confirma tu asistencia aquí:\n${enlaceInvitacion(i.codigo)}\n\nTu código personal es: ${i.codigo}`;
+    }
+
+    /* ---- Pintar ---- */
     function pintar() {
-      const etiquetas = { confirmado: "Confirmado", pendiente: "Pendiente", no_asiste: "No asiste" };
-      const lista = document.getElementById("lista");
+      const q = busqueda.trim().toLowerCase();
+      const visibles = invitados.filter((i) =>
+        (filtro === "todos" || i.estado === filtro) &&
+        (!q || i.nombre.toLowerCase().includes(q) || i.codigo.toLowerCase().includes(q))
+      );
+      const lista = $("lista");
       if (!invitados.length) {
-        lista.innerHTML = `<div class="vacio">Aún no hay invitados. ¡Agrega el primero! 🎈</div>`;
+        lista.innerHTML = `<div class="vacio"><b>Aún no hay invitados</b>Agrega el primero con el formulario de arriba.</div>`;
+      } else if (!visibles.length) {
+        lista.innerHTML = `<div class="vacio">Nadie coincide con ese filtro.</div>`;
       } else {
-        lista.innerHTML = invitados.map(i => `
-          <div class="invitado">
+        lista.innerHTML = visibles.map((i, idx) => `
+          <div class="invitado" style="animation-delay:${Math.min(idx, 12) * 20}ms">
             <div class="info">
-              <div class="n">${i.nombre}</div>
-              <div class="c">Código: ${i.codigo} · ${i.cupos} ${i.cupos === 1 ? "cupo" : "cupos"}</div>
-              ${i.mensaje ? `<div class="m">“${i.mensaje}”</div>` : ""}
+              <div class="n">${esc(i.nombre)}</div>
+              <div class="c"><code>${esc(i.codigo)}</code><span>${i.cupos} ${i.cupos === 1 ? "cupo" : "cupos"}</span></div>
+              ${i.mensaje ? `<div class="m">“${esc(i.mensaje)}”</div>` : ""}
             </div>
-            <span class="badge b-${i.estado}">${etiquetas[i.estado]}</span>
+            <span class="badge b-${i.estado}">${etiquetas[i.estado] || i.estado}</span>
             <div class="acciones">
-              <button class="copiar" onclick="copiarMensaje('${i.id}')">📋 Copiar invitación</button>
-              <button class="eliminar" onclick="eliminar('${i.id}')">🗑</button>
+              <a class="btn btn-wa" href="https://wa.me/?text=${encodeURIComponent(textoInvitacion(i))}" target="_blank" rel="noopener">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 12 12 0 0 0 4.6 4c1.7.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3z"/></svg>
+                WhatsApp
+              </a>
+              <button class="btn btn-sec" data-copiar="${i.id}">Copiar</button>
+              ${confirmandoId === i.id
+                ? `<span class="confirmar">¿Eliminar a ${esc(i.nombre)}? <button class="btn btn-rojo" data-eliminar="${i.id}">Sí, eliminar</button><button class="btn btn-sec" data-cancelar>No</button></span>`
+                : `<button class="btn btn-peligro" data-confirmar="${i.id}" aria-label="Eliminar a ${esc(i.nombre)}">Eliminar</button>`}
             </div>
           </div>`).join("");
       }
-      const conf = invitados.filter(i => i.estado === "confirmado");
-      document.getElementById("stConfirmados").textContent = conf.length;
-      document.getElementById("stPendientes").textContent = invitados.filter(i => i.estado === "pendiente").length;
-      document.getElementById("stNo").textContent = invitados.filter(i => i.estado === "no_asiste").length;
-      document.getElementById("stPersonas").textContent = conf.reduce((t, i) => t + (i.cupos || 1), 0);
+
+      const n = (e) => invitados.filter((i) => i.estado === e).length;
+      const conf = invitados.filter((i) => i.estado === "confirmado");
+      $("stConfirmados").textContent = conf.length;
+      $("stPendientes").textContent = n("pendiente");
+      $("stNo").textContent = n("no_asiste");
+      $("stPersonas").textContent = conf.reduce((t, i) => t + (i.cupos || 1), 0);
+      $("nTodos").textContent = invitados.length;
+      $("nPend").textContent = n("pendiente");
+      $("nConf").textContent = conf.length;
+      $("nNo").textContent = n("no_asiste");
     }
 
-    document.getElementById("formNuevo").onsubmit = async (e) => {
+    /* ---- Acciones de la lista (delegación) ---- */
+    $("lista").addEventListener("click", async (e) => {
+      const b = e.target.closest("button");
+      if (!b) return;
+      if (b.dataset.copiar) {
+        const i = invitados.find((x) => x.id === b.dataset.copiar);
+        try {
+          await navigator.clipboard.writeText(textoInvitacion(i));
+          b.textContent = "Copiado ✓"; b.classList.add("copiado");
+          setTimeout(() => { b.textContent = "Copiar"; b.classList.remove("copiado"); }, 1800);
+          aviso(`Invitación de ${i.nombre} copiada`);
+        } catch { aviso("No se pudo copiar. Usa el botón de WhatsApp.", "error"); }
+      } else if (b.dataset.confirmar) {
+        confirmandoId = b.dataset.confirmar; pintar();
+      } else if (b.hasAttribute("data-cancelar")) {
+        confirmandoId = null; pintar();
+      } else if (b.dataset.eliminar) {
+        const id = b.dataset.eliminar;
+        const i = invitados.find((x) => x.id === id);
+        confirmandoId = null;
+        invitados = invitados.filter((x) => x.id !== id); // optimista
+        pintar();
+        const { error } = await db.from("invitados").delete().eq("id", id);
+        if (error) { aviso("No se pudo eliminar: " + error.message, "error"); cargar(); }
+        else aviso(`${i.nombre} eliminado`);
+      }
+    });
+
+    /* ---- Agregar ---- */
+    $("formNuevo").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const nombre = document.getElementById("nuevoNombre").value.trim();
-      const cupos = Math.max(1, parseInt(document.getElementById("nuevoCupos").value) || 1);
+      const nombre = $("nuevoNombre").value.trim();
+      const cupos = Math.min(20, Math.max(1, parseInt($("nuevoCupos").value) || 1));
       if (!nombre) return;
+      const btn = $("btnAgregar");
+      btn.disabled = true; btn.textContent = "Agregando…";
       const { error } = await db.from("invitados").insert({ nombre, cupos, codigo: generarCodigo() });
-      if (error) return alert("Error al agregar: " + error.message);
-      document.getElementById("nuevoNombre").value = "";
-      document.getElementById("nuevoCupos").value = "1";
+      btn.disabled = false; btn.textContent = "Agregar";
+      if (error) return aviso("No se pudo agregar: " + error.message, "error");
+      $("nuevoNombre").value = ""; $("nuevoCupos").value = "1";
+      $("nuevoNombre").focus();
+      aviso(`${nombre} agregado`);
       cargar();
-    };
+    });
 
-    window.copiarMensaje = async (id) => {
-      const i = invitados.find(x => x.id === id);
-      const texto = `🕊️✨ ${i.nombre}, tenemos el honor de invitarte a los XV años de Karla Guadalupe Espinoza Valladares 💐\n\n📅 Sábado 21 de noviembre de 2026\n⛪ Misa 3:20 pm · Iglesia Santa María Goretti\n🥂 Recepción 5:00 pm · Salón Colegio C.C.I.\n\n👥 Invitación válida para ${i.cupos} ${i.cupos === 1 ? "persona" : "personas"}\n\nAbre tu invitación y confirma tu asistencia aquí:\n${enlaceInvitacion(i.codigo)}\n\nTu código personal es: ${i.codigo}`;
-      await navigator.clipboard.writeText(texto);
-      alert(`Invitación de ${i.nombre} copiada. ¡Pégala en WhatsApp! ✅`);
-    };
-
-    window.eliminar = async (id) => {
-      const i = invitados.find(x => x.id === id);
-      if (!confirm(`¿Eliminar a ${i.nombre}?`)) return;
-      const { error } = await db.from("invitados").delete().eq("id", id);
-      if (error) return alert("Error: " + error.message);
-      cargar();
-    };
+    /* ---- Filtros y búsqueda ---- */
+    $("chips").addEventListener("click", (e) => {
+      const c = e.target.closest(".chip"); if (!c) return;
+      filtro = c.dataset.f;
+      for (const x of $("chips").querySelectorAll(".chip")) x.setAttribute("aria-pressed", x === c);
+      pintar();
+    });
+    $("buscar").addEventListener("input", (e) => { busqueda = e.target.value; pintar(); });
 
     cargar();
-    setInterval(cargar, 10000); // refresca cada 10s para ver confirmaciones nuevas
+    setInterval(cargar, 10000);
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) cargar(); });
   </script>
 </body>
 </html>
