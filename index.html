@@ -89,15 +89,6 @@
       align-items: flex-start;
       padding: 30px 30px 0;
     }
-    .adorno {
-      align-self: center;
-      margin-top: 40px;
-      width: 170px; height: auto;
-      color: var(--dorado);
-      opacity: 0; transform: scale(0.96);
-      transition: opacity 900ms var(--ease-out) 250ms, transform 1100ms var(--ease-out) 250ms;
-    }
-    .adorno.visto { opacity: 1; transform: none; }
     .rosas-esq {
       -webkit-mask-image: radial-gradient(ellipse farthest-side at 100% 0%, black 48%, transparent 98%);
       mask-image: radial-gradient(ellipse farthest-side at 100% 0%, black 48%, transparent 98%);
@@ -308,7 +299,7 @@
 
     /* ---- Preferencias del sistema ---- */
     @media (prefers-reduced-motion: reduce) {
-      .rev, .cabecera img, .adorno { opacity: 1; transform: none; transition: none; }
+      .rev, .cabecera img { opacity: 1; transform: none; transition: none; }
       .vista { transition: opacity 200ms ease; }
       .vista.entrando { transform: none; }
       .btn, .mapa { transition-duration: 0ms; }
@@ -323,7 +314,6 @@
       .cabecera { padding: 24px 22px 0; }
       .colibri-esq { width: 92px; }
       .rosas-esq { width: 136px; }
-      .adorno { width: 100px; margin-top: 34px; }
       .contenido { padding: 10px 24px 38px; }
       .fecha { gap: 10px; }
       .fecha .mes, .fecha .dia-sem { min-width: 78px; font-size: 0.72rem; }
@@ -336,20 +326,6 @@
     <div class="marco" aria-hidden="true"></div>
     <div class="cabecera">
       <img class="colibri-esq" src="img/colibri.png" alt="" width="360" height="330">
-      <svg class="adorno" viewBox="0 0 200 70" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
-        <!-- volutas izquierda -->
-        <path d="M92 35 C70 35 60 18 42 20 C26 22 22 40 34 44 C44 47 48 36 40 33"/>
-        <path d="M92 35 C74 38 66 52 50 50 C38 49 36 36 46 36"/>
-        <!-- volutas derecha -->
-        <path d="M108 35 C130 35 140 18 158 20 C174 22 178 40 166 44 C156 47 152 36 160 33"/>
-        <path d="M108 35 C126 38 134 52 150 50 C162 49 164 36 154 36"/>
-        <!-- centro -->
-        <path d="M100 25 L106 35 L100 45 L94 35 Z" fill="currentColor" stroke="none"/>
-        <circle cx="100" cy="14" r="1.6" fill="currentColor" stroke="none"/>
-        <circle cx="100" cy="56" r="1.6" fill="currentColor" stroke="none"/>
-        <circle cx="22" cy="32" r="1.4" fill="currentColor" stroke="none"/>
-        <circle cx="178" cy="32" r="1.4" fill="currentColor" stroke="none"/>
-      </svg>
       <img class="rosas-esq" src="img/flores.png" alt="" width="340" height="380">
     </div>
 
@@ -444,7 +420,7 @@
     let vistaActual = "cargando";
 
     /* ---- Aparición al hacer scroll (solo opacidad y transform) ---- */
-    const reveladores = document.querySelectorAll(".rev, .cabecera img, .adorno");
+    const reveladores = document.querySelectorAll(".rev, .cabecera img");
     if ("IntersectionObserver" in window) {
       const io = new IntersectionObserver((entradas) => {
         for (const e of entradas) if (e.isIntersecting) { e.target.classList.add("visto"); io.unobserve(e.target); }
