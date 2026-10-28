@@ -52,9 +52,7 @@
 
     /* ---- Tarjeta ---- */
     .tarjeta {
-      background:
-        radial-gradient(90% 60% at 50% 0%, #fffdf8 0%, var(--crema) 60%),
-        var(--crema);
+      background: var(--crema);
       max-width: 480px;
       width: 100%;
       border-radius: 10px;
@@ -91,7 +89,38 @@
       align-items: flex-start;
       padding: 30px 30px 0;
     }
-    .cabecera img { mix-blend-mode: multiply; }
+    .monograma {
+      align-self: center;
+      margin-top: 34px;
+      width: 118px; height: 118px;
+      border-radius: 50%;
+      border: 1px solid var(--dorado);
+      outline: 1px solid rgba(176,141,62,0.4);
+      outline-offset: 4px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      color: var(--dorado);
+      background: radial-gradient(circle at 50% 35%, rgba(255,255,255,0.9), rgba(255,255,255,0) 70%);
+      position: relative;
+      opacity: 0; transform: scale(0.92);
+      transition: opacity 800ms var(--ease-out) 200ms, transform 1000ms var(--ease-out) 200ms;
+    }
+    .monograma.visto { opacity: 1; transform: none; }
+    .monograma .k {
+      font-family: "Great Vibes", cursive;
+      font-size: 64px; line-height: 0.9; margin-top: -8px;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.7);
+    }
+    .monograma .xv {
+      font-size: 0.7rem; letter-spacing: 0.3em; padding-left: 0.3em;
+      font-weight: 600; margin-top: 4px;
+    }
+    .monograma .xv::before, .monograma .xv::after { content: "✦"; font-size: 0.5rem; vertical-align: 1px; }
+    .monograma .xv::before { margin-right: 6px; }
+    .monograma .xv::after { margin-left: 2px; }
+    .monograma .hoja {
+      position: absolute; top: 50%; width: 22px; height: 1px; background: var(--dorado); opacity: 0.6;
+    }
+    .monograma .hoja.i { left: -34px; } .monograma .hoja.d { right: -34px; }
     .colibri-esq { width: 112px; margin-top: 26px; }
     .rosas-esq { width: 160px; margin: -8px -8px 0 0; }
     img { user-select: none; -webkit-user-drag: none; height: auto; }
@@ -298,7 +327,7 @@
 
     /* ---- Preferencias del sistema ---- */
     @media (prefers-reduced-motion: reduce) {
-      .rev, .cabecera img { opacity: 1; transform: none; transition: none; }
+      .rev, .cabecera img, .monograma { opacity: 1; transform: none; transition: none; }
       .vista { transition: opacity 200ms ease; }
       .vista.entrando { transform: none; }
       .btn, .mapa { transition-duration: 0ms; }
@@ -313,6 +342,9 @@
       .cabecera { padding: 24px 22px 0; }
       .colibri-esq { width: 92px; }
       .rosas-esq { width: 136px; }
+      .monograma { width: 92px; height: 92px; margin-top: 30px; }
+      .monograma .k { font-size: 50px; }
+      .monograma .hoja { display: none; }
       .contenido { padding: 10px 24px 38px; }
       .fecha { gap: 10px; }
       .fecha .mes, .fecha .dia-sem { min-width: 78px; font-size: 0.72rem; }
@@ -325,6 +357,7 @@
     <div class="marco" aria-hidden="true"></div>
     <div class="cabecera">
       <img class="colibri-esq" src="img/colibri.png" alt="" width="360" height="330">
+      <div class="monograma rev-m" aria-hidden="true"><span class="hoja i"></span><span class="k">K</span><span class="xv">XV</span><span class="hoja d"></span></div>
       <img class="rosas-esq" src="img/flores.png" alt="" width="340" height="380">
     </div>
 
@@ -419,7 +452,7 @@
     let vistaActual = "cargando";
 
     /* ---- Aparición al hacer scroll (solo opacidad y transform) ---- */
-    const reveladores = document.querySelectorAll(".rev, .cabecera img");
+    const reveladores = document.querySelectorAll(".rev, .cabecera img, .monograma");
     if ("IntersectionObserver" in window) {
       const io = new IntersectionObserver((entradas) => {
         for (const e of entradas) if (e.isIntersecting) { e.target.classList.add("visto"); io.unobserve(e.target); }
