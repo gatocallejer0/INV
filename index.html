@@ -215,10 +215,6 @@
           <h2>Confirma tu asistencia</h2>
           <p class="saludo"><b id="nombreInvitado"></b>, será un honor contar con tu presencia.</p>
           <p class="saludo" id="textoCupos" style="color: var(--dorado); font-weight: 600;"></p>
-          <div class="campo" id="campoAcompanantes">
-            <label for="acompanantes" id="labelAcompanantes">¿Cuántos acompañantes traes? (sin contarte a ti)</label>
-            <input type="number" id="acompanantes" min="0" value="0">
-          </div>
           <div class="campo">
             <label for="mensaje">Mensaje para Karla (opcional)</label>
             <textarea id="mensaje" rows="2" placeholder="¡Felicidades!"></textarea>
@@ -263,15 +259,6 @@
       const cupos = data.cupos || 1;
       document.getElementById("textoCupos").textContent =
         `Tu invitación es válida para ${cupos} ${cupos === 1 ? "persona" : "personas"}.`;
-      if (cupos === 1) {
-        document.getElementById("campoAcompanantes").classList.add("oculto");
-      } else {
-        const max = cupos - 1;
-        const input = document.getElementById("acompanantes");
-        input.max = max;
-        document.getElementById("labelAcompanantes").textContent =
-          `¿Cuántos acompañantes traes? (máximo ${max}, sin contarte a ti)`;
-      }
       if (data.estado !== "pendiente") {
         mostrarGracias(data.estado);
       } else {
@@ -290,12 +277,9 @@
     }
 
     async function responder(estado) {
-      const max = (invitado.cupos || 1) - 1;
-      let acompanantes = estado === "confirmado" ? (parseInt(document.getElementById("acompanantes").value) || 0) : 0;
-      acompanantes = Math.min(Math.max(acompanantes, 0), max);
       const mensaje = document.getElementById("mensaje").value.trim() || null;
       const { error } = await db.from("invitados")
-        .update({ estado, acompanantes, mensaje, confirmado_at: new Date().toISOString() })
+        .update({ estado, mensaje, confirmado_at: new Date().toISOString() })
         .eq("id", invitado.id);
       if (error) return alert("Hubo un error, intenta de nuevo: " + error.message);
       mostrarGracias(estado);

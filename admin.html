@@ -118,7 +118,7 @@
         lista.innerHTML = invitados.map(i => `
           <div class="invitado">
             <div class="info">
-              <div class="n">${i.nombre}${i.estado === "confirmado" && i.acompanantes ? ` <small>(+${i.acompanantes})</small>` : ""}</div>
+              <div class="n">${i.nombre}</div>
               <div class="c">Código: ${i.codigo} · ${i.cupos} ${i.cupos === 1 ? "cupo" : "cupos"}</div>
               ${i.mensaje ? `<div class="m">“${i.mensaje}”</div>` : ""}
             </div>
@@ -133,7 +133,7 @@
       document.getElementById("stConfirmados").textContent = conf.length;
       document.getElementById("stPendientes").textContent = invitados.filter(i => i.estado === "pendiente").length;
       document.getElementById("stNo").textContent = invitados.filter(i => i.estado === "no_asiste").length;
-      document.getElementById("stPersonas").textContent = conf.reduce((t, i) => t + 1 + (i.acompanantes || 0), 0);
+      document.getElementById("stPersonas").textContent = conf.reduce((t, i) => t + (i.cupos || 1), 0);
     }
 
     document.getElementById("formNuevo").onsubmit = async (e) => {
